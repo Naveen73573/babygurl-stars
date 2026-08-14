@@ -1,1 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+  <title>For Babygurl 🌌</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      overflow: hidden;
+      height: 100vh;
+      background: #02020b;
+      color: white;
+      font-family: Georgia, serif;
+    }
+
+    .sky {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 50% 120%, #17174d 0%, #080822 35%, #02020b 75%);
+    }
+
+    /* Stars */
+    .star {
+      position: absolute;
+      width: 3px;
+      height: 3px;
+      background: white;
+      border-radius: 50%;
+      box-shadow: 0 0 8px white;
+      animation: twinkle 2s infinite alternate;
+    }
+
+    @keyframes twinkle {
+      from {
+        opacity: 0.2;
+        transform: scale(0.7);
+      }
+
+      to {
+        opacity: 1;
+        transform: scale(1.4);
+      }
+    }
+
+    /* Opening screen */
+    .opening {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 25px;
+      z-index: 10;
+      background: rgba(2, 2, 11, 0.96);
+      transition: opacity 2s ease;
+    }
+
+    .opening h1 {
+      font-size: clamp(32px, 8vw, 65px);
+      font-weight: normal;
+      margin-bottom: 20px;
+    }
+
+    .opening p {
+      max-width: 500px;
+      line-height: 1.8;
+      font-size: 18px;
+      color: #d8d8e8;
+      margin-bottom: 35px;
+    }
+
+    button {
+      border: 1px solid rgba(255,255,255,0.4);
+      background: rgba(255,255,255,0.08);
+      color: white;
+      padding: 14px 28px;
+      border-radius: 30px;
+      font-size: 16px;
+      cursor: pointer;
+      backdrop-filter: blur(10px);
+      transition: 0.4s;
+    }
+
+    button:hover {
+      background: rgba(255,255,255,0.18);
+      transform: scale(1.05);
+    }
+
+    /* Main content */
+    .content {
+      position: absolute;
+      inset: 0;
+      z-index: 5;
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 25px;
+    }
+
+    .content.show {
+      display: flex;
+    }
+
+    .content h2 {
+      font-size: clamp(30px, 7vw, 55px);
+      font-weight: normal;
+      margin-bottom: 20px;
+      opacity: 0;
+      animation: fadeIn 3s forwards;
+    }
+
+    .content p {
+      max-width: 600px;
+      font-size: 19px;
+      line-height: 1.9;
+      color: #ddddec;
+      opacity: 0;
+      animation: fadeIn 3s 1s forwards;
+    }
+
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+      }
+    }
+
+    /* Special star */
+    .special-star {
+      position: absolute;
+      top: 43%;
+      left: 50%;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: white;
+      box-shadow:
+        0 0 10px white,
+        0 0 25px white,
+        0 0 50px #aaaaff,
+        0 0 90px #7777ff;
+      transform: translate(-50%, -50%);
+      animation: specialGlow 2s infinite alternate;
+      cursor: pointer;
+      z-index: 20;
+    }
+
+    @keyframes specialGlow {
+      from {
+        transform: translate(-50%, -50%) scale(1);
+      }
+
+      to {
+        transform: translate(-50%, -50%) scale(1.6);
+      }
+    }
+
+    .hint {
+      position: absolute;
+      top: 48%;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 14px;
+      color: #aaaacb;
+      opacity: 0;
+      animation: hintFade 3s 2s forwards;
+      white-space: nowrap;
+    }
+
+    @keyframes hintFade {
+      to {
+        opacity: 1;
+      }
+    }
+
+    /* Final message */
+    .final {
+      display: none;
+      position: absolute;
+      inset: 0;
+      z-index: 30;
+      background: rgba(2,2,11,0.92);
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 30px;
+    }
+
+    .final.show {
+      display: flex;
+    }
+
+    .final-box {
+      max-width: 650px;
+      animation: finalAppear 3s ease;
+    }
+
+    @keyframes finalAppear {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .final h2 {
+      font-size: clamp(28px, 7vw, 50px);
+      font-weight: normal;
+      margin-bottom: 30px;
+    }
+
+    .final p {
+      font-size: 20px;
+      line-height: 2;
+      color: #e1e1ef;
+      margin-bottom: 30px;
+    }
+
+    .heart {
+      font-size: 30px;
+      animation: heartBeat 1.5s infinite;
+    }
+
+    @keyframes heartBeat {
+      50% {
+        transform: scale(1.3);
+      }
+    }
+
+    .song-btn {
+      margin-top: 10px;
+    }
+
+    /* Mobile */
+    @media (max-width: 600px) {
+      .opening p,
+      .content p,
+      .final p {
+        font-size: 16px;
+      }
+
+      .hint {
+        font-size: 12px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="sky" id="sky">
+
+    <!-- Opening -->
+    <div class="opening" id="opening">
+
+      <h1>Hey Babygurl... 🌌</h1>
+
+      <p>
+        I don't have a gift to put in your hands tonight.
+        <br><br>
+        So I made you a little piece of my sky.
+      </p>
+
+      <button onclick="enterSky()">
+        Look at the stars ✨
+      </button>
+
+    </div>
+
+
+    <!-- Main sky -->
+    <div class="content" id="content">
+
+      <h2>Look a little closer...</h2>
+
+      <p>
+        There are billions of stars in this sky...
+        <br>
+        but somehow, my eyes keep looking for one.
+      </p>
+
+      <div class="special-star" onclick="openStar()"></div>
+
+      <div class="hint">
+        Tap the brightest star ✨
+      </div>
+
+    </div>
+
+
+    <!-- Final message -->
+    <div class="final" id="final">
+
+      <div class="final-box">
+
+        <h2>This one is yours, Babygurl. ⭐</h2>
+
+        <p>
+          Maybe you're far away from me...
+          <br>
+          but somehow you still feel closer than anyone else.
+          <br><br>
+
+          <strong>
+            Distance can keep us apart for a while...
+            but it can't stop me from choosing you.
+          </strong>
+
+          <br><br>
+
+          Every time. ❤️
+        </p>
+
+        <div class="heart">❤️</div>
+
+        <br>
+
+        <button class="song-btn" onclick="playSong()">
+          ♪ Play our song
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <script>
+
+    /* Create random stars */
+    const sky = document.getElementById("sky");
+
+    for (let i = 0; i < 180; i++) {
+
+      const star = document.createElement("div");
+
+      star.className = "star";
+
+      star.style.left = Math.random() * 100 + "%";
+      star.style.top = Math.random() * 100 + "%";
+
+      star.style.animationDelay =
+        Math.random() * 3 + "s";
+
+      star.style.animationDuration =
+        (1.5 + Math.random() * 3) + "s";
+
+      sky.appendChild(star);
+    }
+
+
+    /* Enter the sky */
+    function enterSky() {
+
+      const opening =
+        document.getElementById("opening");
+
+      const content =
+        document.getElementById("content");
+
+      opening.style.opacity = "0";
+
+      setTimeout(() => {
+
+        opening.style.display = "none";
+
+        content.classList.add("show");
+
+      }, 2000);
+    }
+
+
+    /* Click special star */
+    function openStar() {
+
+      const final =
+        document.getElementById("final");
+
+      final.classList.add("show");
+    }
+
+
+    /* Open the official song */
+    function playSong() {
+
+      window.open(
+        "https://www.youtube.com/watch?v=e1mOmdykmwI",
+        "_blank"
+      );
+
+    }
+
+  </script>
+
+</body>
+</html>
